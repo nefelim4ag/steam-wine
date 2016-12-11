@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Steam (Wine)
+Comment=Steam (Wine)
+Type=Application
+Exec=steam-wine
+Icon=steam-wine
+Terminal=false
+Categories=Wine;Game;
