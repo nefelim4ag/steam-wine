@@ -65,6 +65,14 @@ source "$CONF" &> /dev/null || ERRO "Missing: ${CONF}!"
     done
 }
 
+{
+    case "$1" in
+        wineserver|winetricks|winecfg)
+            ARG="$1"; shift; exec "$ARG" "$@"
+        ;;
+    esac
+}
+
 find -H "$BASE_DIR" -name "Steam.exe" > "$TMP"
 read -r STEAM_PATH < "$TMP"
 
