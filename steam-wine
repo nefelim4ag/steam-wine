@@ -24,7 +24,7 @@ CONF=/etc/steam-wine.conf
 TMP="$(mktemp -u)"
 
 ## Initialization
-# shellcheck source=osu-wine.conf
+# shellcheck source=steam-wine.conf
 source "$CONF" &> /dev/null || ERRO "Missing: ${CONF}!"
 
 [ -z "$WINEARCH" ]         && WINEARCH=win32
