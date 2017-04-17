@@ -2,7 +2,7 @@
 Name=Steam (Wine)
 Comment=Steam (Wine)
 Type=Application
-Exec=steam-wine
+Exec=steam-wine steam
 Icon=steam-wine
 Terminal=false
 Categories=Wine;Game;

@@ -32,6 +32,19 @@ source "$CONF" &> /dev/null || ERRO "Missing: ${CONF}!"
 [ -z "$WINEPREFIX" ]       && WINEPREFIX="$BASE_DIR/WINE.$WINEARCH/"
 [ -z "$INSTALL_PATH" ]     && INSTALL_PATH="$BASE_DIR/steam/"
 
+case "$1" in
+    steam|wineserver|winetricks|winecfg);;
+    *)
+        echo "steam-wine <arg>"
+        echo "args:"
+        echo "  steam"
+        echo "  wineserver <arg>"
+        echo "  winetricks <arg>"
+        echo "  winecfg"
+        exit 1
+    ;;
+esac
+
 {
     INFO "Check: Base dir $BASE_DIR"
     mkdir -p "$BASE_DIR"
@@ -45,7 +58,7 @@ source "$CONF" &> /dev/null || ERRO "Missing: ${CONF}!"
         wineboot &> /dev/null
         INFO "Created: $WINEPREFIX"
     fi
-    INFO "Last tested version: wine-1.9.24"
+    INFO "Last tested version: wine-2.6"
     INFO "Your version: $(wine --version)"
 }
 
@@ -55,9 +68,7 @@ source "$CONF" &> /dev/null || ERRO "Missing: ${CONF}!"
     if [ ! -f "winetricks.log" ]; then
         winetricks -q --optout "${WINE_REQ_MOD[@]}" || ERRO "Something went wrong!"
     fi
-}
 
-{
     INFO "Check: wine can access only to wine drive C:/ + X:/ (steam)"
     for link in "$WINEPREFIX/dosdevices"/*; do
         [[ "$link" =~ c: ]] && continue # For default link to ../drive_c
@@ -73,12 +84,18 @@ source "$CONF" &> /dev/null || ERRO "Missing: ${CONF}!"
     esac
 }
 
-find -H "$BASE_DIR" -name "Steam.exe" > "$TMP"
-read -r STEAM_PATH < "$TMP"
+{
+    case "$1" in
+        steam)
+            find -H "$BASE_DIR" -name "Steam.exe" > "$TMP"
+            read -r STEAM_PATH < "$TMP"
 
-if [ ! -f "$STEAM_PATH" ]; then
-    ERRO "Can't find installed Steam!"
-fi
+            if [ ! -f "$STEAM_PATH" ]; then
+                ERRO "Can't find installed Steam!"
+            fi
 
-INFO "Initialization Finished"
-$PREFIXCOMMAND wine "$STEAM_PATH"
+            INFO "Initialization Finished"
+            $PREFIXCOMMAND wine "$STEAM_PATH"
+        ;;
+    esac
+}
