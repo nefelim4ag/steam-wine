@@ -19,6 +19,7 @@ export PREFIXCOMMAND TMP BASE_DIR
 export WINEPREFIX WINEARCH
 export WINE_REQ_MOD=( steam sandbox corefonts )
 export INSTALL_PATH
+export SANDBOX_FORCE=true
 export STEAM_ARGS="-no-cef-sandbox"
 
 CONF=/etc/steam-wine.conf
@@ -71,11 +72,13 @@ esac
         winetricks -q --optout "${WINE_REQ_MOD[@]}" || ERRO "Something went wrong!"
     fi
 
-    INFO "Check: wine can access only to wine drive C:/ + X:/ (steam)"
-    for link in "$WINEPREFIX/dosdevices"/*; do
-        [[ "$link" =~ c: ]] && continue # For default link to ../drive_c
-        rm -v "$link"
-    done
+    if [ "$SANDBOX_FORCE" == "true" ]; then
+            INFO "Check: wine can access only to wine drive C:/ + X:/ (steam)"
+            for link in "$WINEPREFIX/dosdevices"/*; do
+                [[ "$link" =~ c: ]] && continue # For default link to ../drive_c
+                rm -v "$link"
+            done
+    fi
 }
 
 {
