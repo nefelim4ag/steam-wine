@@ -14,7 +14,7 @@ done
 rm_w(){ [ -f "$1" ] && rm "$1"; }
 
 ## Some vars
-export PREFIXCOMMAND TMP BASE_DIR
+export PREFIXCOMMAND SUFFIXCOMMAND TMP BASE_DIR
 
 export WINEPREFIX WINEARCH
 export WINE_REQ_MOD=( steam sandbox corefonts )
@@ -95,7 +95,7 @@ esac
             fi
 
             INFO "Initialization Finished"
-            $PREFIXCOMMAND wine "$STEAM_PATH"
+            $PREFIXCOMMAND wine "$STEAM_PATH" $SUFFIXCOMMAND
         ;;
     esac
 }
