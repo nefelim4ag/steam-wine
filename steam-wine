@@ -1,8 +1,8 @@
 #!/bin/bash
 ## Logging functions
-INFO(){ echo -n "INFO: "; echo "$@" ;}
-WARN(){ echo -n "WARN: "; echo "$@" ;}
-ERRO(){ echo -n "ERRO: "; echo "$@" ; exit 1;}
+INFO(){ echo "INFO: $*";}
+WARN(){ echo "WARN: $*";}
+ERRO(){ echo "ERRO: $*"; exit 1;}
 
 ## Check some deps
 bin_exist(){ command -v "$1" &> /dev/null || ERRO "Missing ${1}!"; }
@@ -11,7 +11,7 @@ for bin in wine winetricks wineserver winepath wineboot; do
 done
 
 ## Define useful functions
-rm_w(){ [ -f "$1" ] && rm "$1"; }
+rm_w(){ rm -f "$1"; }
 
 ## Some vars
 export PREFIXCOMMAND TMP BASE_DIR
@@ -36,11 +36,12 @@ source "$CONF" &> /dev/null || ERRO "Missing: ${CONF}!"
 case "$1" in
     steam|wineserver|winetricks|winecfg);;
     *)
-        echo "steam-wine <arg>"
+        echo "Usage:"
+        echo "  steam-wine <args>"
         echo "args:"
         echo "  steam"
-        echo "  wineserver <arg>"
-        echo "  winetricks <arg>"
+        echo "  wineserver <args>"
+        echo "  winetricks <args>"
         echo "  winecfg"
         exit 1
     ;;
@@ -59,7 +60,7 @@ esac
         wineboot &> /dev/null
         INFO "Created: $WINEPREFIX"
     fi
-    INFO "Last tested version: wine-2.6"
+    INFO "Last tested version: wine-2.19"
     INFO "Your version: $(wine --version)"
 }
 
