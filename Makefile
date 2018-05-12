@@ -27,11 +27,11 @@ $(DESKTOP): $(S_DESKTOP)
 	install -Dm644 $< $@
 
 install: ## Install libvirt-autoballoon
-install: $(BIN) $(CONF)
+install: $(BIN) $(CONF) $(PNG) $(DESKTOP)
 
 uninstall: ## Delete libvirt-autoballoon
 uninstall:
-	@rm -fv $(BIN) $(CONF)
+	@rm -fv $(BIN) $(CONF) $(PNG) $(DESKTOP)
 
 help: ## Show help
 	@grep -h "##" $(MAKEFILE_LIST) | grep -v grep | sed -e 's/\\$$//' | column -t -s '##'
